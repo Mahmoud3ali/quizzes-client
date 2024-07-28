@@ -1,9 +1,11 @@
-import { ServerStateConfig, RouterConfig } from "./config";
+import { ServerStateConfig, RouterConfig, GlobalStateConfig } from "./config";
 
 function App() {
   return (
     <ServerStateConfig>
-      <RouterConfig />
+      <GlobalStateConfig>
+        <RouterConfig />
+      </GlobalStateConfig>
     </ServerStateConfig>
   );
 }
