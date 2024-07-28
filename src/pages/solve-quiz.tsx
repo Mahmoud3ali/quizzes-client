@@ -20,7 +20,7 @@ const QuestionComponent = ({ question }: { question: Question }) => {
             : question.incorrectFeedback;
 
           return (
-            <div className="flex flex-col">
+            <div key={answer.id.toString()} className="flex flex-col">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem
                   value={answer.id.toString()}
