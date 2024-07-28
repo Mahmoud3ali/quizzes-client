@@ -1,17 +1,27 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { NotFoundPage } from "../pages";
 import { MainLayout } from "../pages/components";
+import { NotFoundPage, QuizzesPage } from "../pages";
+import type { PropsWithChildren } from "react";
 
-type Props = {
-  children?: React.ReactNode;
-};
-
-const Home = {
-  path: "/",
-  name: "Home",
-  Component: () => <></>,
-};
-export const routes = { home: Home };
+export const routes = {
+  notFound: { path: "/not-found", Component: NotFoundPage },
+  newQuiz: {
+    path: "/create-quiz",
+    name: "New Quiz",
+    Component: () => <main>New Quiz</main>,
+  },
+  myQuizzes: {
+    path: "/",
+    name: "My Quizzes",
+    Component: QuizzesPage,
+  },
+  solveQuiz: {
+    path: "/solve-quiz/:id",
+    pathWithId: (id: number) => `/solve-quiz/${id.toString()}`,
+    name: "Solve Quiz",
+    Component: () => <main>Solve Quiz</main>,
+  },
+} as const;
 
 const AppRoutes = () => {
   return (
@@ -26,7 +36,7 @@ const AppRoutes = () => {
   );
 };
 
-export const RouterConfig = ({ children }: Props) => {
+export const RouterConfig = ({ children }: PropsWithChildren) => {
   return (
     <BrowserRouter>
       <AppRoutes />
