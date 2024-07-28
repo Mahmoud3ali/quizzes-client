@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { MainLayout } from "../pages/components";
-import { NotFoundPage, QuizzesPage } from "../pages";
+import { NotFoundPage, QuizzesPage, SolveQuizPage } from "../pages";
 import type { PropsWithChildren } from "react";
 
 export const routes = {
@@ -19,7 +19,7 @@ export const routes = {
     path: "/solve-quiz/:id",
     pathWithId: (id: number) => `/solve-quiz/${id.toString()}`,
     name: "Solve Quiz",
-    Component: () => <main>Solve Quiz</main>,
+    Component: SolveQuizPage,
   },
 } as const;
 

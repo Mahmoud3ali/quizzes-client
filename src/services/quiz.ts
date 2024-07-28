@@ -27,10 +27,8 @@ const QuestionSchema = z
     id: data.id,
     questionHead: data.text,
     answers: data.answers,
-    feedback: {
-      true: data.feedback_true,
-      false: data.feedback_false,
-    },
+    correctFeedback: data.feedback_true,
+    incorrectFeedback: data.feedback_false,
     correctAnswerId: data.answer_id,
   }));
 
