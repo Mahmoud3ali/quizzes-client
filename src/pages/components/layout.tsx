@@ -2,18 +2,17 @@ import { Suspense } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { routes } from "../../config";
 
-const NAVIGATION = [
-  {
-    name: "New Quiz",
-    path: routes.newQuiz.path,
-  },
-  {
-    name: "My Quizzes",
-    path: routes.myQuizzes.path,
-  },
-] as const;
-
 const NavBar = () => {
+  const NAVIGATION = [
+    {
+      name: "New Quiz",
+      path: routes.newQuiz.path,
+    },
+    {
+      name: "My Quizzes",
+      path: routes.myQuizzes.path,
+    },
+  ] as const;
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="flex flex-wrap items-center justify-between">
