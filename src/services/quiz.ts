@@ -1,6 +1,6 @@
 import DB_JSON from "./db.json";
 import { z } from "zod";
-import { getUniqueId } from "../utils";
+import { getUniqueId, shuffle } from "../utils";
 
 const QuestionAnswerSchema = z
   .object({
@@ -28,7 +28,7 @@ const QuestionSchema = z
   .transform((data) => ({
     id: data.id,
     questionHead: data.text,
-    answers: data.answers,
+    answers: data.answers.sort(shuffle),
     correctFeedback: data.feedback_true,
     incorrectFeedback: data.feedback_false,
     correctAnswerId: data.answer_id,
@@ -46,7 +46,7 @@ const QuizSchema = z
     const youtubeId = data.url.split("v=")[1];
     return {
       id: data.id,
-      questions: data.questions_answers,
+      questions: data.questions_answers.sort(shuffle),
       title: data.title,
       description: data.description || "",
       url: `https://www.youtube.com/embed/${youtubeId}`,
