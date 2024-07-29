@@ -5,6 +5,7 @@ import {
   NotFoundPage,
   QuizzesPage,
   SolveQuizPage,
+  EditQuizPage,
 } from "../pages";
 import type { PropsWithChildren } from "react";
 
@@ -25,6 +26,12 @@ export const routes = {
     pathWithId: (id: number) => `/solve-quiz/${id.toString()}`,
     name: "Solve Quiz",
     Component: SolveQuizPage,
+  },
+  editQuiz: {
+    path: "/edit-quiz/:id",
+    pathWithId: (id: number) => `/edit-quiz/${id.toString()}`,
+    name: "Edit Quiz",
+    Component: EditQuizPage,
   },
 } as const;
 

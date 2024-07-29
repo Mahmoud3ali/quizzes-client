@@ -10,6 +10,7 @@ import {
 } from "../components/ui/table";
 import { useQuizzes } from "../hooks";
 import { routes } from "../config";
+import { Button } from "../components/ui/button";
 
 const QuizzesTableSkeleton = () => {
   return (
@@ -55,6 +56,7 @@ const QuizzesPage = () => {
           <TableRow className="hover:bg-white">
             <TableHead>Identifier</TableHead>
             <TableHead>Title</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -66,6 +68,16 @@ const QuizzesPage = () => {
             >
               <TableCell className="font-medium">{quiz.id}</TableCell>
               <TableCell>{quiz.title}</TableCell>
+              <TableCell>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(routes.editQuiz.pathWithId(quiz.id));
+                  }}
+                >
+                  Edit
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

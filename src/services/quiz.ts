@@ -113,3 +113,23 @@ export const createQuiz = async (_quiz: RawQuiz) => {
   // this can be use to surgically update the UI without refetching the whole list
   return newQuiz;
 };
+
+export const editQuiz = async (_quiz: RawQuiz) => {
+  const quiz: RawQuiz & {
+    modified: string;
+  } = {
+    ..._quiz,
+    modified: new Date().toISOString(),
+  };
+  const oldQuizzes = getLocalDB();
+  const updatedQuizzes = oldQuizzes.map((q) => (q.id === quiz.id ? quiz : q));
+
+  updateDB(updatedQuizzes);
+  const newQuiz = await new Promise((resolve) =>
+    setTimeout(() => resolve(QuizSchema.parse(quiz)), 1000)
+  );
+
+  // returning the new quiz to simulate the API response
+  // this can be use to surgically update the UI without refetching the whole list
+  return newQuiz;
+};
