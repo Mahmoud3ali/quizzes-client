@@ -1,5 +1,6 @@
 import DB_JSON from "./db.json";
 import { z } from "zod";
+import { getUniqueId } from "../utils";
 
 const QuestionAnswerSchema = z
   .object({
@@ -8,6 +9,7 @@ const QuestionAnswerSchema = z
     is_true: z.boolean(),
     text: z.string(),
   })
+  // transform is used to create abstraction between the API and the UI, so we can change the API response without affecting the UI
   .transform((data) => ({
     id: data.id,
     text: data.text,
@@ -37,11 +39,15 @@ const QuizSchema = z
     id: z.number(),
     questions_answers: z.array(QuestionSchema),
     title: z.string(),
+    description: z.string().nullable(),
+    url: z.string(),
   })
   .transform((data) => ({
     id: data.id,
     questions: data.questions_answers,
     title: data.title,
+    description: data.description || "",
+    url: data.url,
   }));
 
 const QuizzesResponseSchema = z.array(QuizSchema);
@@ -52,10 +58,55 @@ export type RawQuestion = z.input<typeof QuestionSchema>;
 export type Question = z.output<typeof QuestionSchema>;
 export type RawQuiz = z.input<typeof QuizSchema>;
 export type Quiz = z.output<typeof QuizSchema>;
+
+const updateDB = (updatedQuizzes: RawQuiz[]) => {
+  localStorage.setItem("db", JSON.stringify(updatedQuizzes));
+};
+
+const getLocalDB = (): RawQuiz[] => {
+  // using this approach to simulate a database, in a real-world scenario, this would be an API call to the backend & real DB after auth layer
+  // I could use fs.writeFileSync to write to a file, but this won't work on serverless hosting like Vercel
+  // but in case we need to change, we can edit the code in one place
+  const userDB = localStorage.getItem("db");
+
+  if (!userDB) {
+    updateDB(DB_JSON);
+    return DB_JSON;
+  }
+
+  return JSON.parse(userDB);
+};
+
 export const listQuizzes = async () => {
   const response = await new Promise<RawQuiz[]>((resolve) =>
-    setTimeout(() => resolve(DB_JSON), 1000)
+    // simulating network delay
+    setTimeout(() => resolve(getLocalDB()), 1000)
   );
 
   return QuizzesResponseSchema.parse(response);
+};
+
+export const createQuiz = async (_quiz: RawQuiz) => {
+  const quiz: RawQuiz & {
+    created: string;
+    modified: string;
+    score: number | null;
+  } = {
+    ..._quiz,
+    id: getUniqueId(),
+    created: new Date().toISOString(),
+    modified: new Date().toISOString(),
+    score: null,
+  };
+  const oldQuizzes = getLocalDB();
+  const updatedQuizzes = [...oldQuizzes, quiz];
+
+  updateDB(updatedQuizzes);
+  const newQuiz = await new Promise((resolve) =>
+    setTimeout(() => resolve(QuizSchema.parse(quiz)), 1000)
+  );
+
+  // returning the new quiz to simulate the API response
+  // this can be use to surgically update the UI without refetching the whole list
+  return newQuiz;
 };

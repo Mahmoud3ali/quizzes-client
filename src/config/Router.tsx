@@ -1,6 +1,11 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { MainLayout } from "../pages/components";
-import { NotFoundPage, QuizzesPage, SolveQuizPage } from "../pages";
+import {
+  CreateQuizPage,
+  NotFoundPage,
+  QuizzesPage,
+  SolveQuizPage,
+} from "../pages";
 import type { PropsWithChildren } from "react";
 
 export const routes = {
@@ -8,7 +13,7 @@ export const routes = {
   newQuiz: {
     path: "/create-quiz",
     name: "New Quiz",
-    Component: () => <main>New Quiz</main>,
+    Component: CreateQuizPage,
   },
   myQuizzes: {
     path: "/",
