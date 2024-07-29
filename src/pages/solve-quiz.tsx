@@ -57,6 +57,7 @@ const SolveQuizPage = () => {
   return (
     <main>
       <h1 className="text-center text-4xl">{quiz.title}</h1>
+      <iframe src={quiz.url} title="Quiz" className="w-full h-96 mt-8" />
       <ul className="mt-8">
         {quiz.questions.map((question) => (
           <QuestionComponent key={question.id} question={question} />

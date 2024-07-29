@@ -42,13 +42,16 @@ const QuizSchema = z
     description: z.string().nullable(),
     url: z.string(),
   })
-  .transform((data) => ({
-    id: data.id,
-    questions: data.questions_answers,
-    title: data.title,
-    description: data.description || "",
-    url: data.url,
-  }));
+  .transform((data) => {
+    const youtubeId = data.url.split("v=")[1];
+    return {
+      id: data.id,
+      questions: data.questions_answers,
+      title: data.title,
+      description: data.description || "",
+      url: `https://www.youtube.com/embed/${youtubeId}`,
+    };
+  });
 
 const QuizzesResponseSchema = z.array(QuizSchema);
 
