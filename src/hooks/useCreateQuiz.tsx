@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createQuiz, type RawQuiz } from "../services";
 
-export const useCreateQuiz = () => {
+export const useCreateQuiz = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -17,5 +17,6 @@ export const useCreateQuiz = () => {
       });
       return response;
     },
+    onSuccess,
   });
 };
