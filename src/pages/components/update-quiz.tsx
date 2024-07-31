@@ -40,7 +40,7 @@ const QuestionComponent = ({
       <Input
         id={`question-${index}`}
         type="text"
-        required={false}
+        required
         placeholder={`Question ${index + 1}`}
         defaultValue={question.questionHead}
       />
@@ -49,7 +49,7 @@ const QuestionComponent = ({
           id={`feedback-true-${index}`}
           type="text"
           className="w-1/2"
-          required={false}
+          required
           placeholder="Correct feedback ✅"
           defaultValue={question.correctFeedback}
         />
@@ -57,7 +57,7 @@ const QuestionComponent = ({
           id={`feedback-false-${index}`}
           type="text"
           className="w-1/2"
-          required={false}
+          required
           placeholder="Incorrect feedback ❌"
           defaultValue={question.incorrectFeedback}
         />
@@ -78,7 +78,7 @@ const QuestionComponent = ({
                   id={`answer-${index}-${answerIndex}`}
                   className={`w-96 ${isLast ? "border-green-400" : ""}`}
                   type="text"
-                  required={false}
+                  required={answerIndex === 0}
                   placeholder={`Answer ${answerIndex + 1}`}
                   defaultValue={answer.text}
                 />
@@ -197,7 +197,7 @@ export const UpdateQuizComponent = ({
             id="title"
             type="text"
             className="w-1/2"
-            required={false}
+            required
             placeholder="Quiz Title"
             defaultValue={quiz.title}
           />
